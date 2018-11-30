@@ -7,7 +7,8 @@ import LoginForm from './components/forms/LoginForm'
 import RegisterForm from './components/forms/RegisterForm';
 
 
-const url = process.env.REACT_APP_API_URL;
+
+const url = 'http://localhost:3300';
 
 class App extends Component {
   constructor() {
@@ -74,7 +75,7 @@ class App extends Component {
     const token = localStorage.getItem('BANK CODE');
     const options = {
       headers: {
-        authentication: token
+        authorization: token
       },
     }
     if (this.state.loggedIn && token){
