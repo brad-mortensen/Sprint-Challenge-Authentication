@@ -1,26 +1,18 @@
 const axios = require('axios');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const db = require('../database/dbConfig')
 
-const { authenticate } = require('./middlewares');
+const { authenticate, generateToken } = require('./middlewares');
 
 module.exports = server => {
   server.post('/api/register', register);
   server.post('/api/login', login);
   server.get('/api/jokes', authenticate, getJokes);
+  server.get("/api/users", userList);
 };
 
-function generateToken(user) {
-  const payload = {
-    subject: user.id,
-    username: user.username,
-  }
-  const secret = process.env.JWT_SECRET;
-  const options = {
-    expiresIn: '1hr'
-  }
-  return jwt.sign(payload, secret, options)
-}
+
 
 function register(req, res) {
   // implement user registration
@@ -36,24 +28,26 @@ function register(req, res) {
 }
 
 function login(req, res) {
+  // implement user login
   const creds = req.body;
   db('users')
     .where({ username: creds.username })
     .first()
     .then(user => {
-      if(user && bcrypt.compareSync(creds.password, user.password)){
+      if (user && bcrypt.compareSync(creds.password, user.password)) {
         const token = generateToken(user);
-        res.status(200).json(token);
-      }else{
-        res.status(401).json({ message: 'Creds Aint Adding Up' })
+        res.status(200).json({ token });
+      } else {
+        res.status(401).json({ message: "You shall not pass!" });
       }
-  }).catch(err => res.status(404).json({ error:"EEEERRRRRRRROOOROORRR", err }))
+    })
+    .catch(err => res.status(500).json(err));
 }
 
 function getJokes(req, res) {
   axios
     .get(
-      'https://08ad1pao69.execute-api.us-east-1.amazonaws.com/dev/random_ten'
+      'https://safe-falls-22549.herokuapp.com/random_ten'
     )
     .then(response => {
       res.status(200).json(response.data);
@@ -61,4 +55,12 @@ function getJokes(req, res) {
     .catch(err => {
       res.status(500).json({ message: 'Error Fetching Jokes', error: err });
     });
+}
+
+function userList(req, res) {
+  db("users")
+    .then(users => {
+      res.status(200).json(users);
+    })
+    .catch(err => res.status(500).json(err));
 }

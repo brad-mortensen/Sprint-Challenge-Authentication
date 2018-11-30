@@ -1,0 +1,86 @@
+* {
+  font-size: 62.5%;
+  
+}
+
+.App {
+  text-align: center;
+
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.nav-bar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  font-family: 'Merriweather';
+  background-color: black;
+  height: 56px;
+  -webkit-transition: height .25s; /* Safari */
+  transition: height .25s;
+}
+
+.nav-bar:hover {
+  height: 101px;
+}
+
+.nav-bar a {
+  text-decoration: none;
+  color: grey;
+  font-size: 1.6rem;
+  box-sizing: border-box;
+  height: 100%;
+  padding: 20px 20px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.nav-bar a:hover {
+  border-top: 5px solid white;
+  color: white;
+}
+
+.login-form {
+  width: 90%;
+  font-size: 1rem; 
+  margin: 30px 5%; 
+  height: 1200px;
+  padding-top: 80px;
+}
+
+.register-form {
+  width: 90%;
+  font-size: 1rem; 
+  margin: 30px 5%;
+  height: 1200px;
+  padding-top: 80px; 
+}
+
+.users {
+  width: 90%;
+  font-size: 1rem; 
+  margin: 30px 5%;
+  height: 1200px;
+  padding-top: 80px;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
